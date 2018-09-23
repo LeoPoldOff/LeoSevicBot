@@ -1,9 +1,9 @@
 import java.util.HashMap;
 import java.util.Map;
-import javafx.scene.chart.PieChart.Data;
+import java.util.Date;
 
-public class tree {
-	public static double main(int sex, Data age, int height, int weight, int region, int smoking, int drinking,
+public class Tree {
+	public static double calcAge(int sex, Date age, int height, int weight, int region, int smoking, int drinking,
 			int sport) {
 		Map<Integer, Double> dictOfSex = new HashMap<Integer, Double>();
 		Map<Integer, Double> dictOfRegion = new HashMap<Integer, Double>();
