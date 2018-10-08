@@ -1,104 +1,210 @@
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
+import org.json.simple.*;
+import org.json.simple.parser.JSONParser;
 
 public class PersonInfo {
     public int sex;
     public Date birthDate;
+    private String sDate;
     public int height;
     public int weight;
     public int region;
     public int smokingRange;
-    public int alcoholrange;
+    public int alcoholRange;
     public int sportRange;
+    public static final String dirPath = new File("").getAbsolutePath() + "/data";
+    public static final String dataFilePath = dirPath + "/user_data.json";
+    private static Map<Integer,String> sexOptions = new HashMap<>();
+    {
+        sexOptions.put(1, "Man");
+        sexOptions.put(2, "Woman");
+    }
+    private static Map<Integer,String> regionOptions = new HashMap<>();
+    {
+        regionOptions.put(1, "Russia");
+        regionOptions.put(2, "Europe");
+        regionOptions.put(3, "Asia");
+        regionOptions.put(4, "Africa");
+        regionOptions.put(5, "America");
+        regionOptions.put(6, "Australia");
+    }
+    private static Map<Integer,String> smokingOptions = new HashMap<>();
+    {
+        smokingOptions.put(1, "One pack of cigarettes a day or more");
+        smokingOptions.put(2, "One or two pack of cigarettes a week");
+        smokingOptions.put(3, "One or two pack of cigarettes a month");
+        smokingOptions.put(4, "I`m not smoking");
+    }
 
-    public PersonInfo(){
+    private static Map<Integer,String> alcoholOptions = new HashMap<>();
+    {
+        alcoholOptions.put(1, "I`m drinking everyday");
+        alcoholOptions.put(2, "Usually I drink a few times a week");
+        alcoholOptions.put(3, "Usually I drink a few times a month");
+        alcoholOptions.put(4, "I`m not drinking");
+    }
+
+    private static Map<Integer,String> sportOptions = new HashMap<>();
+    {
+        sportOptions.put(1, "I`m professional athlete");
+        sportOptions.put(2, "Sometimes I go to the gym");
+        sportOptions.put(3, "I don`t like sport");
+    }
+
+    private PersonInfo(){
         sex = 1;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
-        try {
-            birthDate = dateFormat.parse("01.01.1900");
-        }
-        catch (ParseException e){}
+        sDate = "01.10.1999";
+        birthDate = parseDate("01.01.1900");
         height = 160;
         weight = 50;
         region = 1;
         smokingRange = 1;
-        alcoholrange = 1;
-        smokingRange = 1;
+        alcoholRange = 1;
+        sportRange = 1;
     }
 
-    public void fillInfo(){
+    @SuppressWarnings("unchecked")
+    public PersonInfo(boolean hasData){
+        if (hasData) {
+            JSONParser parser = new JSONParser();
+            try {
+                JSONObject object = (JSONObject) parser.parse(new FileReader(dataFilePath));
+
+                sex = ((Number)object.get("sex")).intValue();
+                sDate = object.get("birthDate").toString();
+                birthDate = parseDate(sDate);
+                height = ((Number) object.get("height")).intValue();
+                weight = ((Number) object.get("weight")).intValue();
+                region = ((Number) object.get("region")).intValue();
+                smokingRange = ((Number) object.get("smokingRange")).intValue();
+                alcoholRange = ((Number) object.get("alcoholRange")).intValue();
+                sportRange = ((Number) object.get("sportRange")).intValue();
+            }
+            catch (IOException | org.json.simple.parser.ParseException e){}
+        }
+        else {
+            var pInfo = getInfo();
+            sex = pInfo.sex;
+            sDate = pInfo.sDate;
+            birthDate = pInfo.birthDate;
+            height = pInfo.height;
+            weight = pInfo.weight;
+            region = pInfo.region;
+            smokingRange = pInfo.smokingRange;
+            alcoholRange = pInfo.alcoholRange;
+            sportRange = pInfo.sportRange;
+
+            var dataDir = new File(dirPath);
+            if (!dataDir.exists()) {
+                dataDir.mkdir();
+            }
+
+            JSONObject object = new JSONObject();
+            object.put("sex", sex);
+            object.put("birthDate", sDate);
+            object.put("height", height);
+            object.put("weight", weight);
+            object.put("region", region);
+            object.put("smokingRange", smokingRange);
+            object.put("alcoholRange", alcoholRange);
+            object.put("sportRange", sportRange);
+
+            try (FileWriter writer = new FileWriter(dataFilePath)){
+                writer.write(object.toJSONString());
+                writer.flush();
+                writer.close();
+            } catch (IOException e) { }
+
+        }
+    }
+
+    private Date parseDate(String sDate){
+        var date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
+        //SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy", Locale.ENGLISH);
+        try {
+            date = dateFormat.parse(sDate);
+        }
+        catch (ParseException e){
+            System.out.println(e.getMessage());
+        }
+        return date;
+    }
+
+    public PersonInfo getInfo(){
+        PersonInfo pInfo = new PersonInfo();
+        System.out.print("Fill in the information about yourself.\n");
         Scanner scan = new Scanner(System.in);
-        var sexQuestion = "What`s your sex?\n" +
-                "1.Man\n" +
-                "2.Woman";
-        sex = askQuestion(sexQuestion, 2, scan);
+
+        var sexQuestion = makeQuestion("What`s your sex?", sexOptions);
+        pInfo.sex = askQuestion(sexQuestion, sexOptions.size(), scan);
 
         System.out.println("What`s your date of birth?");
         var date = scan.nextLine();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
-        try {
-            birthDate = dateFormat.parse(date);
-        }
-        catch (ParseException e){}
+        pInfo.sDate = date;
+        pInfo.birthDate = parseDate(date);
 
         System.out.println("What`s your height measuring in centimeters?");
-        height = Integer.parseInt(scan.nextLine());
+        pInfo.height = Integer.parseInt(scan.nextLine());
 
         System.out.println("What`s your weight measuring in kilos?");
-        weight = Integer.parseInt(scan.nextLine());
+        pInfo.weight = Integer.parseInt(scan.nextLine());
 
-        var regionQuestion = "In what region do you live?\n" +
-                "1.Russia\n" +
-                "2.Europe\n" +
-                "3.Asia\n" +
-                "4.Africa\n" +
-                "5.America\n" +
-                "6.Australia";
-        region = askQuestion(regionQuestion, 6, scan);
+        var regionQuestion = makeQuestion("In what region do you live?", regionOptions);
+        pInfo.region = askQuestion(regionQuestion, regionOptions.size(), scan);
 
-        var smokeQuestion = "What`s your attitude to smoking?(int 1 - 4)\n" +
-                "1.One pack of cigarettes a day or more\n" +
-                "2.One or two pack of cigarettes a week\n" +
-                "3.One or two pack of cigarettes a month\n" +
-                "4.I`m not smoking";
-        smokingRange = askQuestion(smokeQuestion, 4, scan);
+        var smokeQuestion = makeQuestion("What`s your attitude to smoking?", smokingOptions);
+        pInfo.smokingRange = askQuestion(smokeQuestion, smokingOptions.size(), scan);
 
-        var alcoholQuestion = "What`s your attitude to alcohol?(int 1 - 3)\n" +
-                "1.I`m drinking everyday\n" +
-                "2.Usually I drink a few times a week\n" +
-                "3.Usually I drink a few times a month\n" +
-                "4.I`m not drinking";
-        alcoholrange = askQuestion(alcoholQuestion, 4, scan);
-        var sportQuestion = "What`s your attitude to sport?(int 1 - 3)\n" +
-                "1.I`m professional athlete\n" +
-                "2.Sometimes I go to the gym\n" +
-                "3.I don`t like sport";
-        sportRange = askQuestion(sportQuestion, 3, scan);
+        var alcoholQuestion = makeQuestion("What`s your attitude to alcohol?", alcoholOptions);
+        pInfo.alcoholRange = askQuestion(alcoholQuestion, alcoholOptions.size(), scan);
+        var sportQuestion = makeQuestion("What`s your attitude to sport?", sportOptions);
+        pInfo.sportRange = askQuestion(sportQuestion, sportOptions.size(), scan);
+
+        return pInfo;
+    }
+
+    private static String makeQuestion(String question, Map<Integer, String> options){
+        var resultQuestion = new StringBuilder(question + "\n");
+        for (var k : options.keySet()){
+            resultQuestion.append(k).append(". ").append(options.get(k)).append("\n");
+        }
+
+        return resultQuestion.deleteCharAt(resultQuestion.length() - 1).toString();
     }
 
     private int askQuestion(String question, int range, Scanner scan){
-        int answ;
+        int answer;
         while (true) {
             System.out.println(question);
             try {
-                answ = Integer.parseInt(scan.nextLine());
+                answer = Integer.parseInt(scan.nextLine());
             }
             catch (NumberFormatException e){
                 System.out.println("Incorrect answer");
                 continue;
             }
-            if (answ <= range && answ > 0){
+            if (answer <= range && answer > 0)
                 break;
-            }
-            else {
+            else
                 System.out.println("Incorrect answer");
-            }
         }
+        return answer;
+    }
 
-        return answ;
+    public String showInfo() {
+        var info = new StringBuilder();
+        info.append("Sex: ").append(sexOptions.get(sex));
+        info.append("\nDate of birth: ").append(birthDate.toString());
+        info.append("\nRegion: ").append(regionOptions.get(region));
+        info.append("\nWeight: ").append(weight).append(" kg");
+        info.append("\nHeight: ").append(height).append(" sm");
+        info.append("\nAttitude to smoking: ").append(smokingOptions.get(smokingRange));
+        info.append("\nAttitude to alcohol: ").append(alcoholOptions.get(alcoholRange));
+        info.append("\nAttitude to sport: ").append(sportOptions.get(sportRange));
+        return info.toString();
     }
 }
