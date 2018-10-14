@@ -5,18 +5,14 @@ import java.io.*;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 
-public class PersonInfo {
-    public int sex;
-    public Date birthDate;
+class PersonInfo {
+    int sex, height, weight, region,
+            smokingRange, alcoholRange, sportRange;
+    private Date birthDate;
     private String sDate;
-    public int height;
-    public int weight;
-    public int region;
-    public int smokingRange;
-    public int alcoholRange;
-    public int sportRange;
-    public static final String dirPath = new File("").getAbsolutePath() + "/data";
-    public static final String dataFilePath = dirPath + "/user_data.json";
+
+    private static final String dirPath = new File("").getAbsolutePath() + "/data";
+    static final String dataFilePath = dirPath + "/user_data.json";
     private static Map<Integer,String> sexOptions = new HashMap<>();
     {
         sexOptions.put(1, "Man");
@@ -67,7 +63,7 @@ public class PersonInfo {
     }
 
     @SuppressWarnings("unchecked")
-    public PersonInfo(boolean hasData){
+    PersonInfo(boolean hasData){
         if (hasData) {
             JSONParser parser = new JSONParser();
             try {
@@ -83,7 +79,7 @@ public class PersonInfo {
                 alcoholRange = ((Number) object.get("alcoholRange")).intValue();
                 sportRange = ((Number) object.get("sportRange")).intValue();
             }
-            catch (IOException | org.json.simple.parser.ParseException e){}
+            catch (IOException | org.json.simple.parser.ParseException e){System.out.println(e.getMessage());}
         }
         else {
             var pInfo = getInfo();
@@ -99,7 +95,7 @@ public class PersonInfo {
 
             var dataDir = new File(dirPath);
             if (!dataDir.exists()) {
-                dataDir.mkdir();
+                dataDir.mkdirs();
             }
 
             JSONObject object = new JSONObject();
@@ -115,8 +111,8 @@ public class PersonInfo {
             try (FileWriter writer = new FileWriter(dataFilePath)){
                 writer.write(object.toJSONString());
                 writer.flush();
-                writer.close();
-            } catch (IOException e) { }
+                //writer.close();
+            } catch (IOException e) {System.out.println(e.getMessage());}
 
         }
     }
@@ -134,7 +130,7 @@ public class PersonInfo {
         return date;
     }
 
-    public PersonInfo getInfo(){
+    private PersonInfo getInfo(){
         PersonInfo pInfo = new PersonInfo();
         System.out.print("Fill in the information about yourself.\n");
         Scanner scan = new Scanner(System.in);
@@ -176,7 +172,7 @@ public class PersonInfo {
         return resultQuestion.deleteCharAt(resultQuestion.length() - 1).toString();
     }
 
-    private int askQuestion(String question, int range, Scanner scan){
+    private static int askQuestion(String question, int range, Scanner scan){
         int answer;
         while (true) {
             System.out.println(question);
@@ -195,7 +191,7 @@ public class PersonInfo {
         return answer;
     }
 
-    public String showInfo() {
+    String showInfo() {
         var info = new StringBuilder();
         info.append("Sex: ").append(sexOptions.get(sex));
         info.append("\nDate of birth: ").append(birthDate.toString());
