@@ -1,14 +1,14 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class Tree {
-	public static int calcAge(PersonInfo pInfo) {
-		Map<Integer, Double> dictOfSex = new HashMap<Integer, Double>();
+class Tree {
+	static int calcAge(PersonInfo pInfo) {
+		Map<Integer, Double> dictOfSex = new HashMap<>();
 		{
 			dictOfSex.put(1, 1.0);
 			dictOfSex.put(2, 1.1);
 		}
-		Map<Integer, Double> dictOfRegion = new HashMap<Integer, Double>();
+		Map<Integer, Double> dictOfRegion = new HashMap<>();
 		{
 			dictOfRegion.put(1, 0.85);
 			dictOfRegion.put(2, 0.95);
@@ -17,21 +17,21 @@ public class Tree {
 			dictOfRegion.put(5, 0.92);
 			dictOfRegion.put(6, 0.95);
 		}
-		Map<Integer, Double> dictOfSmoking = new HashMap<Integer, Double>();
+		Map<Integer, Double> dictOfSmoking = new HashMap<>();
 		{
 			dictOfSmoking.put(1, 0.87);
 			dictOfSmoking.put(2, 0.92);
 			dictOfSmoking.put(3, 0.95);
 			dictOfSmoking.put(4, 1.0);
 		}
-		Map<Integer, Double> dictOfAlcohol = new HashMap<Integer, Double>();
+		Map<Integer, Double> dictOfAlcohol = new HashMap<>();
 		{
 			dictOfAlcohol.put(1, 0.71);
 			dictOfAlcohol.put(2, 0.85);
 			dictOfAlcohol.put(3, 0.92);
 			dictOfAlcohol.put(4, 1.0);
 		}
-		Map<Integer, Double> dictOfSport = new HashMap<Integer, Double>();
+		Map<Integer, Double> dictOfSport = new HashMap<>();
 		{
 			dictOfSport.put(1, 1.15);
 			dictOfSport.put(2, 1.07);
