@@ -2,16 +2,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
-public class BirthdayNode implements INode {
-    Map<String,BotAction> commands;
+class BirthdayNode extends Node{
     private PersonInfo personInfo;
 
     BirthdayNode(PersonInfo pInfo){
         personInfo = pInfo;
         commands = new HashMap<>();
     }
+
     Response bDayChangeRespond(String s){
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
         try {
@@ -36,9 +35,5 @@ public class BirthdayNode implements INode {
 
     public Response viewHelp() {
         return new Response("Type your birthday (dd.mm.yyyy)", 0);
-    }
-
-    public Response unknown(){
-        return new Response ("Unknown", 0);
     }
 }

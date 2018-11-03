@@ -1,11 +1,14 @@
 import java.util.Map;
 
 abstract class Node implements INode {
-    //PersonInfo personInfo;
-    private Map<String,BotAction> commands;
+    Map<String,BotAction> commands;
 
     public BotAction getAnswer(String s){
-        BotAction command = commands.get(s);
+        BotAction command;
+        if (s.equals("0"))
+            command = null;
+        else
+            command = commands.get(s);
         if (s.equals("help")) {
             return new BotAction(this::viewHelp, this);
         }
@@ -20,12 +23,13 @@ abstract class Node implements INode {
             if (!key.equals("help"))
                 help.append(key).append("\n");
         }
-        return new Response(help.toString(), 0);
+        return new Response(help.substring(0, help.length() - 1), 0);
     }
 
     public Response unknown(){
         return new Response ("Unknown", 0);
     }
+
     public Response silentRespond(){
         return new Response("",0);
     }

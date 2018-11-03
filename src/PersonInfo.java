@@ -4,14 +4,14 @@ class PersonInfo {
     String birthDate;
 
     PersonInfo(){
-        sex = 1;
-        birthDate = "01.01.1900";
-        height = 160;
-        weight = 50;
-        region = 1;
-        smokingRange = 1;
-        alcoholRange = 1;
-        sportRange = 1;
+        sex = 0;
+        birthDate = "";
+        height = 0;
+        weight = 0;
+        region = 0;
+        smokingRange = 0;
+        alcoholRange = 0;
+        sportRange = 0;
     }
 
     String showInfo() {
