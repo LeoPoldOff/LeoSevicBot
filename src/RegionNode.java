@@ -8,7 +8,14 @@ class RegionNode extends Node {
         commands = new HashMap<>();
     }
 
-    Response regionChangeRespond(String s) {
+    void fillCommands(INode node){
+        var action = new BotAction(this::regionChangeRespond, node);
+        for (var a : QuizNode.regionOptions.keySet()){
+            commands.put(a.toString(), action);
+        }
+    }
+
+    private Response regionChangeRespond(String s) {
         personInfo.updateRegion(s);
         return new Response("Your region changed to " + s, 0);
     }

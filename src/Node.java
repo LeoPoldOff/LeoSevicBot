@@ -1,7 +1,7 @@
 import java.util.Map;
 
 abstract class Node implements INode {
-    Map<String,BotAction> commands;
+    protected Map<String,BotAction> commands;
 
     public BotAction getAnswer(String s){
         BotAction command;
@@ -28,9 +28,5 @@ abstract class Node implements INode {
 
     public Response unknown(){
         return new Response ("Unknown", 0);
-    }
-
-    public Response silentRespond(){
-        return new Response("",0);
     }
 }

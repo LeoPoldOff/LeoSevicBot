@@ -8,7 +8,14 @@ class AlcoholNode extends Node {
         commands = new HashMap<>();
     }
 
-    Response alcoholChangeRespond(String s){
+    void fillCommands(INode node){
+        var action =  new BotAction(this::alcoholChangeRespond, node);
+        for (var a : QuizNode.alcoholOptions.keySet()){
+            commands.put(a.toString(), action);
+        }
+    }
+
+    private Response alcoholChangeRespond(String s){
         personInfo.updateAlcoholRange(s);
         return new Response("Your alcohol habit changed to \"" + s + "\"", 0);
     }

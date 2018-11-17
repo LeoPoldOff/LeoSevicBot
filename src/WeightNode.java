@@ -1,6 +1,8 @@
 import java.util.HashMap;
+import java.util.Map;
 
-public class WeightNode extends Node {
+public class WeightNode implements INode {
+    private Map<String,BotAction> commands;
     private PersonInfo personInfo;
 
     WeightNode(PersonInfo pInfo){
@@ -8,7 +10,11 @@ public class WeightNode extends Node {
         commands = new HashMap<>();
     }
 
-    Response weightChangeRespond(String s){
+    void fillCommands(INode node){
+        commands.put("", new BotAction(this::weightChangeRespond, node));
+    }
+
+    private Response weightChangeRespond(String s){
         personInfo.updateWeightRange(s);
         return new Response("Your weight changed to " + s + " kg", 0);
     }
@@ -25,5 +31,9 @@ public class WeightNode extends Node {
 
     public Response viewHelp() {
         return new Response("Type your weight in kg", 0);
+    }
+
+    public Response unknown(){
+        return new Response ("Unknown", 0);
     }
 }

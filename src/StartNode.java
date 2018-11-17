@@ -7,22 +7,28 @@ class StartNode extends Node {
         personInfo = pInfo;
         commands = new HashMap<>();
     }
+    void fillCommands(QuizNode quiz){
+        commands.put("my info", new BotAction(this::myInfo, this));
+        commands.put("change info", new BotAction(this::changeInfo, quiz));
+        commands.put("when i die?", new BotAction(this::whenIDie, this));
+        commands.put("exit", new BotAction(this::exit, this));
+    }
 
-    Response myInfo(){
+    private Response myInfo(){
         return new Response(personInfo.showInfo(), 0);
     }
 
-    Response exit(){
+    private Response exit(){
         return new Response("Bye!", 1);
     }
 
-    Response whenIDie(){
+    private Response whenIDie(){
         var age = Tree.calcAge(personInfo);
         var userRespond = String.format("You'll die at age %d", age);
         return new Response(userRespond, 0);
     }
 
-    Response changeInfo(){
+    private Response changeInfo(){
         return new Response("What parameter you want to change?",0);
     }
 }

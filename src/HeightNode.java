@@ -1,6 +1,8 @@
 import java.util.HashMap;
+import java.util.Map;
 
-public class HeightNode extends Node {
+public class HeightNode implements INode{
+    private Map<String,BotAction> commands;
     private PersonInfo personInfo;
 
     HeightNode(PersonInfo pInfo){
@@ -8,7 +10,11 @@ public class HeightNode extends Node {
         commands = new HashMap<>();
     }
 
-    Response heightChangeRespond(String s){
+    void fillCommands(INode node){
+        commands.put("", new BotAction(this::heightChangeRespond, node));
+    }
+
+    private Response heightChangeRespond(String s){
         personInfo.updateHeightRange(s);
         return new Response("Your height changed to " + s + " sm", 0);
     }
@@ -25,5 +31,9 @@ public class HeightNode extends Node {
 
     public Response viewHelp() {
         return new Response("Type your height in sm", 0);
+    }
+
+    public Response unknown(){
+        return new Response ("Unknown", 0);
     }
 }

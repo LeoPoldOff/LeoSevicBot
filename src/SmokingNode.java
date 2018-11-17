@@ -8,7 +8,14 @@ class SmokingNode extends Node {
         commands = new HashMap<>();
     }
 
-    Response smokeChangeRespond(String s){
+    void fillCommands(INode node){
+        var action =  new BotAction(this::smokeChangeRespond, node);
+        for (var a : QuizNode.smokingOptions.keySet()){
+            commands.put(a.toString(), action);
+        }
+    }
+
+    private Response smokeChangeRespond(String s){
         personInfo.updateSmokingRange(s);
         return new Response("Your smoking habit changed to \"" + s + "\"", 0);
     }

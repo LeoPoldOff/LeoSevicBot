@@ -16,14 +16,14 @@ class PersonInfo {
 
     String showInfo() {
         var info = new StringBuilder();
-        info.append("Sex: ").append(QuizAsker.sexOptions.get(sex));
+        info.append("Sex: ").append(QuizNode.sexOptions.get(sex));
         info.append("\nDate of birth: ").append(birthDate);
-        info.append("\nRegion: ").append(QuizAsker.regionOptions.get(region));
+        info.append("\nRegion: ").append(QuizNode.regionOptions.get(region));
         info.append("\nWeight: ").append(weight).append(" kg");
         info.append("\nHeight: ").append(height).append(" sm");
-        info.append("\nAttitude to smoking: ").append(QuizAsker.smokingOptions.get(smokingRange));
-        info.append("\nAttitude to alcohol: ").append(QuizAsker.alcoholOptions.get(alcoholRange));
-        info.append("\nAttitude to sport: ").append(QuizAsker.sportOptions.get(sportRange));
+        info.append("\nAttitude to smoking: ").append(QuizNode.smokingOptions.get(smokingRange));
+        info.append("\nAttitude to alcohol: ").append(QuizNode.alcoholOptions.get(alcoholRange));
+        info.append("\nAttitude to sport: ").append(QuizNode.sportOptions.get(sportRange));
         return info.toString();
     }
 

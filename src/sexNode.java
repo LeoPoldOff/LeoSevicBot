@@ -8,7 +8,14 @@ class SexNode extends Node {
         commands = new HashMap<>();
     }
 
-    Response sexChangeRespond(String s){
+    void fillCommands(INode node){
+        var action = new BotAction(this::sexChangeRespond, node);
+        for (var a : QuizNode.sexOptions.keySet()){
+            commands.put(a.toString(), action);
+        }
+    }
+
+    private Response sexChangeRespond(String s){
         personInfo.updateSex(s);
         return new Response("Your sex changed to " + s, 0);
     }

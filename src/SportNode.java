@@ -8,7 +8,14 @@ class SportNode extends Node {
         commands = new HashMap<>();
     }
 
-    Response sportChangeRespond(String s){
+    void fillCommands(INode node){
+        var action =  new BotAction(this::sportChangeRespond, node);
+        for (var a : QuizNode.sportOptions.keySet()){
+            commands.put(a.toString(), action);
+        }
+    }
+
+    private Response sportChangeRespond(String s){
         personInfo.updateSportRange(s);
         return new Response("Your sport habit changed to \"" + s + "\"", 0);
     }
