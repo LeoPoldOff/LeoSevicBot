@@ -1,2 +1,2 @@
 # BoringLifeBot
-Java bot that can tell tour age of death
+Java bot that can tell your age of death
