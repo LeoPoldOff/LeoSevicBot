@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Map;
 
 class SexNode extends Node {
     private PersonInfo personInfo;
@@ -8,9 +9,9 @@ class SexNode extends Node {
         commands = new HashMap<>();
     }
 
-    void fillCommands(INode node){
+    void fillCommands(INode node, Map<Integer,String> options){
         var action = new BotAction(this::sexChangeRespond, node);
-        for (var a : QuizNode.sexOptions.keySet()){
+        for (var a : options.keySet()){
             commands.put(a.toString(), action);
         }
     }

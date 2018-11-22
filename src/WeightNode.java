@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class WeightNode implements INode {
@@ -31,6 +33,10 @@ public class WeightNode implements INode {
 
     public Response viewHelp() {
         return new Response("Type your weight in kg", 0);
+    }
+
+    public List<String> getCommandList(){
+        return new ArrayList<>();
     }
 
     public Response unknown(){
