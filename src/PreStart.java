@@ -39,20 +39,16 @@ public class PreStart implements INode{
     }
 
     public Response viewHelp() {
-        return new Response(String.join("\n", getCommandList()), 0);
-    }
-
-    public List<String> getCommandList() {
-        var commandList = new ArrayList<String>();
         if (usedCommands.size() == commands.size() - 1)
-            commandList.add("ok");
+            return new Response("ok", 0);
         else {
+            var help = new StringBuilder();
             for (var key : commands.keySet()) {
                 if (!key.equals("help") && !key.equals("ok") && !usedCommands.contains(commands.get(key)))
-                    commandList.add(key);
+                    help.append(key).append("\n");
             }
+            return new Response(help.substring(0, help.length() - 1), 0);
         }
-        return commandList;
     }
 
     private Response alreadyUsed(){

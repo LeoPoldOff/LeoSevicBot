@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.Map;
 
 class AlcoholNode extends Node {
     private PersonInfo personInfo;
@@ -9,9 +8,9 @@ class AlcoholNode extends Node {
         commands = new HashMap<>();
     }
 
-    void fillCommands(INode node, Map<Integer,String> options){
-        var action = new BotAction(this::alcoholChangeRespond, node);
-        for (var a : options.keySet()){
+    void fillCommands(INode node){
+        var action =  new BotAction(this::alcoholChangeRespond, node);
+        for (var a : QuizNode.alcoholOptions.keySet()){
             commands.put(a.toString(), action);
         }
     }
