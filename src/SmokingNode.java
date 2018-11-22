@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Map;
 
 class SmokingNode extends Node {
     private PersonInfo personInfo;
@@ -8,9 +9,9 @@ class SmokingNode extends Node {
         commands = new HashMap<>();
     }
 
-    void fillCommands(INode node){
+    void fillCommands(INode node, Map<Integer,String> options){
         var action =  new BotAction(this::smokeChangeRespond, node);
-        for (var a : QuizNode.smokingOptions.keySet()){
+        for (var a : options.keySet()){
             commands.put(a.toString(), action);
         }
     }

@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Map;
 
 class RegionNode extends Node {
     private PersonInfo personInfo;
@@ -8,9 +9,9 @@ class RegionNode extends Node {
         commands = new HashMap<>();
     }
 
-    void fillCommands(INode node){
+    void fillCommands(INode node, Map<Integer,String> options){
         var action = new BotAction(this::regionChangeRespond, node);
-        for (var a : QuizNode.regionOptions.keySet()){
+        for (var a : options.keySet()){
             commands.put(a.toString(), action);
         }
     }

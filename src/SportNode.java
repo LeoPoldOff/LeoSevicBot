@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Map;
 
 class SportNode extends Node {
     private PersonInfo personInfo;
@@ -8,9 +9,9 @@ class SportNode extends Node {
         commands = new HashMap<>();
     }
 
-    void fillCommands(INode node){
+    void fillCommands(INode node, Map<Integer,String> options){
         var action =  new BotAction(this::sportChangeRespond, node);
-        for (var a : QuizNode.sportOptions.keySet()){
+        for (var a : options.keySet()){
             commands.put(a.toString(), action);
         }
     }

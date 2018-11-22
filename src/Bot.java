@@ -25,11 +25,11 @@ class Bot {
         start.fillCommands(quiz);
         quiz.fillCommands(start,sexNode,regionNode,smokingNode,alcoholNode,
                           sportNode,heightNode,weightNode,bDayNode);
-        sexNode.fillCommands(quiz);
-        regionNode.fillCommands(quiz);
-        smokingNode.fillCommands(quiz);
-        alcoholNode.fillCommands(quiz);
-        sportNode.fillCommands(quiz);
+        sexNode.fillCommands(quiz, QuizNode.sexOptions);
+        regionNode.fillCommands(quiz, QuizNode.regionOptions);
+        smokingNode.fillCommands(quiz, QuizNode.smokingOptions);
+        alcoholNode.fillCommands(quiz, QuizNode.alcoholOptions);
+        sportNode.fillCommands(quiz, QuizNode.sportOptions);
         heightNode.fillCommands(quiz);
         weightNode.fillCommands(quiz);
         bDayNode.fillCommands(quiz);
@@ -47,11 +47,11 @@ class Bot {
 
             preStartNode.fillCommands(quiz,preSexNode, preRegionNode, preSmokingNode, preAlcoholNode, preSportNode,
                     preHeightNode, preWeightNode, preBDayNode, start);
-            preSexNode.fillCommands(preStartNode);
-            preRegionNode.fillCommands(preStartNode);
-            preSmokingNode.fillCommands(preStartNode);
-            preAlcoholNode.fillCommands(preStartNode);
-            preSportNode.fillCommands(preStartNode);
+            preSexNode.fillCommands(preStartNode, QuizNode.sexOptions);
+            preRegionNode.fillCommands(preStartNode, QuizNode.regionOptions);
+            preSmokingNode.fillCommands(preStartNode, QuizNode.smokingOptions);
+            preAlcoholNode.fillCommands(preStartNode, QuizNode.alcoholOptions);
+            preSportNode.fillCommands(preStartNode, QuizNode.sportOptions);
             preHeightNode.fillCommands(preStartNode);
             preWeightNode.fillCommands(preStartNode);
             preBDayNode.fillCommands(preStartNode);
