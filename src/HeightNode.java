@@ -1,6 +1,4 @@
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class HeightNode implements INode{
@@ -33,10 +31,6 @@ public class HeightNode implements INode{
 
     public Response viewHelp() {
         return new Response("Type your height in sm", 0);
-    }
-
-    public List<String> getCommandList(){
-        return new ArrayList<>();
     }
 
     public Response unknown(){
