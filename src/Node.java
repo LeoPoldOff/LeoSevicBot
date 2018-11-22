@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 abstract class Node implements INode {
@@ -18,12 +20,16 @@ abstract class Node implements INode {
     }
 
     public Response viewHelp() {
-        var help = new StringBuilder();
+        return new Response(String.join("\n", getCommandList()), 0);
+    }
+
+    public List<String> getCommandList(){
+        var commandList = new ArrayList<String>();
         for (var key : commands.keySet()) {
             if (!key.equals("help"))
-                help.append(key).append("\n");
+                commandList.add(key);
         }
-        return new Response(help.substring(0, help.length() - 1), 0);
+        return commandList;
     }
 
     public Response unknown(){
