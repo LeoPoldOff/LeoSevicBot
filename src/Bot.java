@@ -1,3 +1,5 @@
+import java.util.List;
+
 class Bot {
     private INode currentNode;
     private boolean firstTime;
@@ -83,4 +85,8 @@ class Bot {
         else
             return "Hello again!";
     }
+    
+    List<String> currentCommandList(){ 
+    	return currentNode.getCommandList(); 
+    	}
 }
