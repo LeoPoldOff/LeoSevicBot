@@ -4,7 +4,7 @@ class Bot {
     private INode currentNode;
     private boolean firstTime;
 
-    Bot(){
+    Bot() {
         var dw = new DataWorker();
         firstTime = !dw.hasInfo();
         PersonInfo personInfo;
@@ -25,8 +25,8 @@ class Bot {
         var bDayNode = new BirthdayNode(personInfo);
 
         start.fillCommands(quiz);
-        quiz.fillCommands(start,sexNode,regionNode,smokingNode,alcoholNode,
-                          sportNode,heightNode,weightNode,bDayNode);
+        quiz.fillCommands(start, sexNode, regionNode, smokingNode, alcoholNode,
+                sportNode, heightNode, weightNode, bDayNode);
         sexNode.fillCommands(quiz, QuizNode.sexOptions);
         regionNode.fillCommands(quiz, QuizNode.regionOptions);
         smokingNode.fillCommands(quiz, QuizNode.smokingOptions);
@@ -36,7 +36,7 @@ class Bot {
         weightNode.fillCommands(quiz);
         bDayNode.fillCommands(quiz);
 
-        if (firstTime){
+        if (firstTime) {
             var preStartNode = new PreStart();
             var preSexNode = new SexNode(personInfo);
             var preRegionNode = new RegionNode(personInfo);
@@ -47,7 +47,7 @@ class Bot {
             var preWeightNode = new WeightNode(personInfo);
             var preBDayNode = new BirthdayNode(personInfo);
 
-            preStartNode.fillCommands(quiz,preSexNode, preRegionNode, preSmokingNode, preAlcoholNode, preSportNode,
+            preStartNode.fillCommands(quiz, preSexNode, preRegionNode, preSmokingNode, preAlcoholNode, preSportNode,
                     preHeightNode, preWeightNode, preBDayNode, start);
             preSexNode.fillCommands(preStartNode, QuizNode.sexOptions);
             preRegionNode.fillCommands(preStartNode, QuizNode.regionOptions);
@@ -59,12 +59,11 @@ class Bot {
             preBDayNode.fillCommands(preStartNode);
 
             currentNode = preStartNode;
-        }
-        else
+        } else
             currentNode = start;
     }
 
-    Response respond(String command){
+    Response respond(String command) {
         command = command.toLowerCase();
         var answer = currentNode.getAnswer(command);
         currentNode = answer.nextNode;
@@ -77,16 +76,16 @@ class Bot {
             return new Response("Something went wrong", 0);
     }
 
-    String greet(){
+    String greet() {
         if (firstTime)
             return "Hello! This is Boring Life bot.\n" +
-                   "Use \"help\" to see list off available commands.\n" +
+                    "Use \"help\" to see list off available commands.\n" +
                     "Firstly fill information about yourself.";
         else
             return "Hello again!";
     }
-    
-    List<String> currentCommandList(){ 
-    	return currentNode.getCommandList(); 
-    	}
+
+    List<String> currentCommandList() {
+        return currentNode.getCommandList();
+    }
 }

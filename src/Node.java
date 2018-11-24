@@ -7,6 +7,7 @@ abstract class Node implements INode {
 
     public BotAction getAnswer(String s){
         BotAction command;
+        //TODO Я просил что-нибудь сделать с нулем :)
         if (s.equals("0"))
             command = null;
         else

@@ -16,6 +16,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
+//TODO Для того, чтобы зачесть задачу с телеграммом, нужно сделать, чтобы бот поддерживал работу с нескольими пользователями
 public class Telega extends TelegramLongPollingBot {
 	private static Bot bot = new Bot();
 
@@ -25,6 +26,7 @@ public class Telega extends TelegramLongPollingBot {
 		try {
 			botapi.registerBot(new Telega());
 		} catch (TelegramApiException e) {
+			//TODO Я просил найти более подходящие способы обработки исключений
 			e.printStackTrace();
 		}
 	}
@@ -38,26 +40,24 @@ public class Telega extends TelegramLongPollingBot {
 	public void onUpdateReceived(Update e) {
 		if (e.hasMessage() && e.getMessage().hasText()) {
 			String message_text = e.getMessage().getText();
+			//TODO переменные названы не по Java Naming Conventions(не только в этом месте, а везде)
 			long chat_id = e.getMessage().getChatId();
 			var response = bot.respond(message_text.toLowerCase());
 			if (e.getMessage().getText().equals("help")) {
 				SendMessage message = new SendMessage().setChatId(chat_id).setText("You send help");
 				InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 				List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
-
 				List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
-				ListIterator<String> listIter = bot.currentCommandList().listIterator();
-				for (int f = 0; f < bot.currentCommandList().size(); f += 1) {
-					String element = listIter.next();
-					keyboardButtonsRow1.add(new InlineKeyboardButton().setText(element).setCallbackData(element));
+				for(String command : bot.currentCommandList()) {
+					keyboardButtonsRow1.add(new InlineKeyboardButton().setText(command).setCallbackData(command));
 				}
-
 				rowList.add(keyboardButtonsRow1);
 				inlineKeyboardMarkup.setKeyboard(rowList);
 				message.setReplyMarkup(inlineKeyboardMarkup);
 				try {
 					execute(message);
 				} catch (TelegramApiException q) {
+					//TODO Я просил найти более подходящие способы обработки исключений
 					q.printStackTrace();
 				}
 
@@ -66,6 +66,7 @@ public class Telega extends TelegramLongPollingBot {
 				try {
 					execute(message);
 				} catch (TelegramApiException q) {
+					//TODO Я просил найти более подходящие способы обработки исключений
 					q.printStackTrace();
 				}
 			}
@@ -81,6 +82,8 @@ public class Telega extends TelegramLongPollingBot {
 				try {
 					execute(new_message);
 				} catch (TelegramApiException v) {
+
+					//TODO Я просил найти более подходящие способы обработки исключений
 					v.printStackTrace();
 				}
 			}
