@@ -1,39 +1,39 @@
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
 import java.io.*;
-import java.util.Date;
 
-class DataWorker{
+class DataWorker {
     private static final String dirPath = new File("").getAbsolutePath() + "/data";
-    private static final String dataFilePath = dirPath + "/user_data.json";
 
-     boolean hasInfo(){
-        var dataFile = new File(dataFilePath);
+    boolean hasInfo(String chatId) {
+        var dataFile = new File(dirPath + "/" + chatId + ".json");
         return dataFile.exists();
     }
 
-     PersonInfo readData(){
-        var pInfo = new PersonInfo();
+    UserInfo readData(String chatId) {
+        var info = new UserInfo();
         JSONParser parser = new JSONParser();
         try {
-            JSONObject object = (JSONObject) parser.parse(new FileReader(dataFilePath));
+            JSONObject object = (JSONObject) parser.parse(new FileReader(dirPath + "/" + chatId + ".json"));
 
-            pInfo.sex = ((Number)object.get("sex")).intValue();
-            pInfo.birthDate = object.get("birthDate").toString();
-            pInfo.height = ((Number) object.get("height")).intValue();
-            pInfo.weight = ((Number) object.get("weight")).intValue();
-            pInfo.region = ((Number) object.get("region")).intValue();
-            pInfo.smokingRange = ((Number) object.get("smokingRange")).intValue();
-            pInfo.alcoholRange = ((Number) object.get("alcoholRange")).intValue();
-            pInfo.sportRange = ((Number) object.get("sportRange")).intValue();
+            info.sex = ((Number) object.get("sex")).intValue();
+            info.birthDate = object.get("birthDate").toString();
+            info.height = ((Number) object.get("height")).intValue();
+            info.weight = ((Number) object.get("weight")).intValue();
+            info.region = ((Number) object.get("region")).intValue();
+            info.smokingRange = ((Number) object.get("smokingRange")).intValue();
+            info.alcoholRange = ((Number) object.get("alcoholRange")).intValue();
+            info.sportRange = ((Number) object.get("sportRange")).intValue();
+        } catch (IOException | org.json.simple.parser.ParseException e) {
+            System.out.println(e.getMessage());
         }
-        catch (IOException | org.json.simple.parser.ParseException e){ System.out.println(e.getMessage()); }
 
-        return pInfo;
+        return info;
     }
 
     @SuppressWarnings("unchecked")
-    void writeData(PersonInfo pInfo){
+    void writeData(UserInfo pInfo, String id) {
         var dataDir = new File(dirPath);
         if (!dataDir.exists()) {
             dataDir.mkdirs();
@@ -49,10 +49,12 @@ class DataWorker{
         object.put("alcoholRange", pInfo.alcoholRange);
         object.put("sportRange", pInfo.sportRange);
 
-        try{
-            FileWriter writer = new FileWriter(dataFilePath);
+        try {
+            FileWriter writer = new FileWriter(dirPath + "/" + id + ".json");
             writer.write(object.toJSONString());
             writer.flush();
-        } catch (IOException e) {System.out.println(e.getMessage());}
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

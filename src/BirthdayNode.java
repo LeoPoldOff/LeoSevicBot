@@ -2,37 +2,33 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-class BirthdayNode implements INode{
-    private Map<String,BotAction> commands;
-    private PersonInfo personInfo;
+class BirthdayNode implements INode {
+    private Map<String, BotAction> commands;
 
-    BirthdayNode(PersonInfo pInfo){
-        personInfo = pInfo;
+    BirthdayNode() {
         commands = new HashMap<>();
     }
 
-    void fillCommands(INode node){
+    void fillCommands(INode node) {
         commands.put("", new BotAction(this::bDayChangeRespond, node));
     }
 
-    private Response bDayChangeRespond(String s){
+    private Response bDayChangeRespond(String s, User user) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
         try {
             dateFormat.parse(s);
-        }
-        catch (ParseException e){
+        } catch (ParseException e) {
             return new Response("Wrong date format", 0);
         }
-        personInfo.updateBirthday(s);
+        user.update(s, this.getClass());
         return new Response("Your birthday changed to \"" + s + "\"", 0);
     }
 
-    public BotAction getAnswer(String s){
-        BotAction command = commands.get("");
-        if (s.equals("help")) {
+    public BotAction getAnswer(String s) {
+        if (s.equals("help"))
             return new BotAction(this::viewHelp, this);
-        }
-        else if (command == null)
+        BotAction command = commands.get("");
+        if (command == null)
             return new BotAction(this::unknown, this);
         return command;
     }
@@ -41,11 +37,11 @@ class BirthdayNode implements INode{
         return new Response("Type your birthday (dd.mm.yyyy)", 0);
     }
 
-    public List<String> getCommandList(){
+    public List<String> getCommandList() {
         return new ArrayList<>();
     }
 
-    public Response unknown(){
-        return new Response ("Unknown", 0);
+    public Response unknown() {
+        return new Response("Unknown", 0);
     }
 }

@@ -3,18 +3,13 @@ import java.util.List;
 import java.util.Map;
 
 abstract class Node implements INode {
-    protected Map<String,BotAction> commands;
+    protected Map<String, BotAction> commands;
 
-    public BotAction getAnswer(String s){
-        BotAction command;
-        if (s.equals("0"))
-            command = null;
-        else
-            command = commands.get(s);
-        if (s.equals("help")) {
+    public BotAction getAnswer(String s) {
+        if (s.equals("help"))
             return new BotAction(this::viewHelp, this);
-        }
-        else if (command == null)
+        var command = commands.get(s);
+        if (command == null)
             return new BotAction(this::unknown, this);
         return command;
     }
@@ -23,7 +18,7 @@ abstract class Node implements INode {
         return new Response(String.join("\n", getCommandList()), 0);
     }
 
-    public List<String> getCommandList(){
+    public List<String> getCommandList() {
         var commandList = new ArrayList<String>();
         for (var key : commands.keySet()) {
             if (!key.equals("help"))
@@ -32,7 +27,7 @@ abstract class Node implements INode {
         return commandList;
     }
 
-    public Response unknown(){
-        return new Response ("Unknown", 0);
+    public Response unknown() {
+        return new Response("Unknown", 0);
     }
 }

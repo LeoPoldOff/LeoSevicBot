@@ -1,9 +1,9 @@
-class PersonInfo {
+class UserInfo {
     int sex, height, weight, region,
             smokingRange, alcoholRange, sportRange;
     String birthDate;
 
-    PersonInfo(){
+    UserInfo() {
         sex = 0;
         birthDate = "";
         height = 0;
@@ -12,6 +12,17 @@ class PersonInfo {
         smokingRange = 0;
         alcoholRange = 0;
         sportRange = 0;
+    }
+
+    UserInfo(UserInfo info){
+        sex = info.sex;
+        birthDate = info.birthDate;
+        height = info.height;
+        weight = info.weight;
+        region = info.region;
+        smokingRange = info.smokingRange;
+        alcoholRange = info.alcoholRange;
+        sportRange = info.sportRange;
     }
 
     String showInfo() {
@@ -27,28 +38,35 @@ class PersonInfo {
         return info.toString();
     }
 
-    void updateSex(String sex){
+    void updateSex(String sex) {
         this.sex = Integer.parseInt(sex);
     }
-    void updateRegion(String region){
+
+    void updateRegion(String region) {
         this.region = Integer.parseInt(region);
     }
-    void updateSmokingRange(String smokingRange){
+
+    void updateSmokingRange(String smokingRange) {
         this.smokingRange = Integer.parseInt(smokingRange);
     }
-    void updateAlcoholRange(String AlcoholRange){
+
+    void updateAlcoholRange(String AlcoholRange) {
         this.alcoholRange = Integer.parseInt(AlcoholRange);
     }
-    void updateSportRange(String SportRange){
+
+    void updateSportRange(String SportRange) {
         this.sportRange = Integer.parseInt(SportRange);
     }
-    void updateHeightRange(String height){
+
+    void updateHeightRange(String height) {
         this.height = Integer.parseInt(height);
     }
-    void updateWeightRange(String height){
+
+    void updateWeightRange(String height) {
         this.weight = Integer.parseInt(height);
     }
-    void updateBirthday(String birthday){
+
+    void updateBirthday(String birthday) {
         this.birthDate = birthday;
     }
 }
