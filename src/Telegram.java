@@ -1,6 +1,9 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static java.lang.Math.toIntExact;
 
@@ -15,7 +18,8 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
 public class Telegram extends TelegramLongPollingBot {
-	private static Bot bot = new Bot();
+	private static HashMap<Long, Bot> bots = new HashMap<>();
+	private static Logger log = Logger.getLogger(Telegram.class.getName());
 
 	public static void main(String[] args) {
 		ApiContextInitializer.init();
@@ -23,7 +27,7 @@ public class Telegram extends TelegramLongPollingBot {
 		try {
 			botapi.registerBot(new Telegram());
 		} catch (TelegramApiException e) {
-			e.printStackTrace();
+			log.log(Level.SEVERE, "Exception: ", e);
 		}
 	}
 
@@ -32,36 +36,37 @@ public class Telegram extends TelegramLongPollingBot {
 		return "boring_life_bot";
 	}
 
+	private Bot getBot(Update update) {
+		long chatId = 0;
+		if (update.hasMessage())
+			chatId = update.getMessage().getChatId();
+		else if (update.hasCallbackQuery())
+			chatId = update.getCallbackQuery().getMessage().getChatId();
+
+		Bot bot = bots.putIfAbsent(chatId, new Bot());
+		if (bot == null)
+			bot = bots.putIfAbsent(chatId, new Bot());
+
+		return bot;
+	}
+
 	@Override
 	public void onUpdateReceived(Update update) {
+		var bot = getBot(update);
 		if (update.hasMessage() && update.getMessage().hasText()) {
-			
+
 			String messageText = update.getMessage().getText();
 			long chatId = update.getMessage().getChatId();
 			var response = bot.respond(messageText, Long.toString(chatId));
-			if (update.getMessage().getText().equals("help") || update.getMessage().getText().equals("Help")
-					|| update.getMessage().getText().equals("/help")) {
+			if (update.getMessage().getText().toLowerCase().equals("help")
+					|| update.getMessage().getText().toLowerCase().equals("/help")) {
 				SendMessage message = new SendMessage().setChatId(chatId).setText("You send help");
 				InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 				List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
-				List<InlineKeyboardButton> keyboardButtonsRow0 = new ArrayList<>();
-				List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
-				List<InlineKeyboardButton> keyboardButtonsRow2 = new ArrayList<>();
-				List<InlineKeyboardButton> keyboardButtonsRow3 = new ArrayList<>();
-				List<InlineKeyboardButton> keyboardButtonsRow4 = new ArrayList<>();
-				List<InlineKeyboardButton> keyboardButtonsRow5 = new ArrayList<>();
-				List<InlineKeyboardButton> keyboardButtonsRow6 = new ArrayList<>();
-				List<InlineKeyboardButton> keyboardButtonsRow7 = new ArrayList<>();
-				List<InlineKeyboardButton> keyboardButtonsRow8 = new ArrayList<>();
-				rowList.add(keyboardButtonsRow0);
-				rowList.add(keyboardButtonsRow1);
-				rowList.add(keyboardButtonsRow2);
-				rowList.add(keyboardButtonsRow3);
-				rowList.add(keyboardButtonsRow4);
-				rowList.add(keyboardButtonsRow5);
-				rowList.add(keyboardButtonsRow6);
-				rowList.add(keyboardButtonsRow7);
-				rowList.add(keyboardButtonsRow8);
+				for (int i = 0; i < 9; i++) {
+					List<InlineKeyboardButton> button = new ArrayList<>();
+					rowList.add(button);
+				}
 				ListIterator<String> listIter = bot.currentCommandList(update.getMessage().getChatId().toString())
 						.listIterator();
 				for (int f = 0; f < bot.currentCommandList(update.getMessage().getChatId().toString()).size(); f += 1) {
@@ -81,11 +86,11 @@ public class Telegram extends TelegramLongPollingBot {
 				try {
 					execute(message);
 				} catch (TelegramApiException q) {
-					q.printStackTrace();
+					log.log(Level.SEVERE, "Exception: ", q);
 				}
 			}
 		} else if (update.hasCallbackQuery()) {
-			
+
 			String callData = update.getCallbackQuery().getData();
 			long messageId = update.getCallbackQuery().getMessage().getMessageId();
 			long chatId = update.getCallbackQuery().getMessage().getChatId();
@@ -97,7 +102,7 @@ public class Telegram extends TelegramLongPollingBot {
 				try {
 					execute(newMessage);
 				} catch (TelegramApiException v) {
-					v.printStackTrace();
+					log.log(Level.SEVERE, "Exception: ", v);
 				}
 			}
 		}
