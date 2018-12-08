@@ -78,7 +78,7 @@ public class Telegram extends TelegramLongPollingBot {
 				try {
 					execute(message);
 				} catch (TelegramApiException q) {
-					q.printStackTrace();
+					log.log(Level.SEVERE, "Exception: ", q);
 				}
 
 			} else {
