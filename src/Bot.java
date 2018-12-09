@@ -56,8 +56,10 @@ class Bot {
 		var user = users.get(chatId);
 		if (user == null) {
 			var dw = new DataWorker();
-			if (dw.hasInfo(chatId))
-				user = new User(start, chatId, dw.readData(chatId));
+            UserInfo userData  = dw.readData(chatId);
+			if (dw.hasInfo(chatId) && userData != null) {
+                user = new User(start, chatId, userData);
+            }
 			else
 				user = new User(preStartNode, chatId);
 			users.put(chatId, user);
