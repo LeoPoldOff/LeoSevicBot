@@ -44,8 +44,6 @@ public class Telegram extends TelegramLongPollingBot {
 			chatId = update.getCallbackQuery().getMessage().getChatId();
 
 		Bot bot = bots.putIfAbsent(chatId, new Bot());
-		if (bot == null)
-			bot = bots.putIfAbsent(chatId, new Bot());
 
 		return bot;
 	}
@@ -67,10 +65,8 @@ public class Telegram extends TelegramLongPollingBot {
 					List<InlineKeyboardButton> button = new ArrayList<>();
 					rowList.add(button);
 				}
-				ListIterator<String> listIter = bot.currentCommandList(update.getMessage().getChatId().toString())
-						.listIterator();
 				for (int f = 0; f < bot.currentCommandList(update.getMessage().getChatId().toString()).size(); f += 1) {
-					String element = listIter.next();
+					String element = bot.currentCommandList(update.getMessage().getChatId().toString()).get(f);
 					rowList.get(f).add(new InlineKeyboardButton().setText(element).setCallbackData(element));
 				}
 				inlineKeyboardMarkup.setKeyboard(rowList);
