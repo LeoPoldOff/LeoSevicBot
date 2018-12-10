@@ -10,14 +10,14 @@ public class BotTest {
     @Test
     public void unknownRespond() {
         var bot = new Bot();
-        var response = bot.respond("Unknown command","id");
+        var response = bot.respond("Unknown command", "id");
         Assert.assertEquals("Unknown", response.userRespond);
     }
 
     @Test
     public void helpOnPreStart() {
         var bot = new Bot();
-        var response = bot.respond("help","id");
+        var response = bot.respond("help", "id");
         var commandList = response.userRespond.split("\n");
         Assert.assertEquals(bot.currentCommandList("id").size(), commandList.length);
     }
@@ -25,22 +25,23 @@ public class BotTest {
     @Test
     public void wrongBDayFormat() {
         var bot = new Bot();
-        bot.respond("my birthday", "id3");
-        var a = bot.respond("911199", "id3");
+        bot.respond("my birthday", "id");
+        var a = bot.respond("911199", "id");
         Assert.assertEquals("Wrong date format", a.userRespond);
     }
 
     @Test
     public void fieldAlreadyFilled() {
         var bot = new Bot();
-        bot.respond("my sex", "id1");
-        bot.respond("1", "id1");
-        var a = bot.respond("my sex", "id1");
+        bot.respond("my sex", "id");
+        bot.respond("1", "id");
+        var a = bot.respond("my sex", "id");
         Assert.assertEquals("This field already filled", a.userRespond);
     }
 
     @Test
     public void checkInfo() {
+        deleteFile("id2");
         var bot = new Bot();
         bot.respond("my birthday", "id2");
         bot.respond("10.12.1999", "id2");
@@ -70,9 +71,7 @@ public class BotTest {
                 "Attitude to alcohol: I`m drinking everyday\n" +
                 "Attitude to sport: I`m professional athlete";
         Assert.assertEquals(expected, a.userRespond);
-    }
-    @Test
-    public void checkInfoFile() {
+
         var expectedJSON = "{\"sportRange\":1,\"sex\":1,\"alcoholRange\":1,\"weight\":60,\"region\":1," +
                 "\"smokingRange\":1,\"birthDate\":\"10.12.1999\",\"height\":170}";
         var filePath = new File("").getAbsolutePath() + "/data/id2.json";
@@ -80,10 +79,15 @@ public class BotTest {
         try {
             BufferedReader br = new BufferedReader(new FileReader(filePath));
             actualJSON = br.readLine();
-        }
-        catch (java.io.IOException e){
+        } catch (java.io.IOException e) {
             Assert.fail();
         }
         Assert.assertEquals(expectedJSON, actualJSON);
+    }
+
+    private void deleteFile (String chatId){
+        var filePath = new File("").getAbsolutePath() + "/data/" + chatId + ".json";
+        var file = new File(filePath);
+        file.delete();
     }
 }
