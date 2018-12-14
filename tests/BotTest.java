@@ -1,4 +1,6 @@
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -6,17 +8,16 @@ import java.io.File;
 import java.io.FileReader;
 
 public class BotTest {
+    private Bot bot = new Bot();
 
     @Test
     public void unknownRespond() {
-        var bot = new Bot();
         var response = bot.respond("Unknown command", "id");
         Assert.assertEquals("Unknown", response.userRespond);
     }
 
     @Test
     public void helpOnPreStart() {
-        var bot = new Bot();
         var response = bot.respond("help", "id");
         var commandList = response.userRespond.split("\n");
         Assert.assertEquals(bot.currentCommandList("id").size(), commandList.length);
@@ -24,7 +25,6 @@ public class BotTest {
 
     @Test
     public void wrongBDayFormat() {
-        var bot = new Bot();
         bot.respond("my birthday", "id");
         var a = bot.respond("911199", "id");
         Assert.assertEquals("Wrong date format", a.userRespond);
@@ -32,7 +32,6 @@ public class BotTest {
 
     @Test
     public void fieldAlreadyFilled() {
-        var bot = new Bot();
         bot.respond("my sex", "id");
         bot.respond("1", "id");
         var a = bot.respond("my sex", "id");
@@ -41,8 +40,6 @@ public class BotTest {
 
     @Test
     public void checkInfo() {
-        deleteFile("id2");
-        var bot = new Bot();
         bot.respond("my birthday", "id2");
         bot.respond("10.12.1999", "id2");
         bot.respond("my sex", "id2");
@@ -85,9 +82,9 @@ public class BotTest {
         Assert.assertEquals(expectedJSON, actualJSON);
     }
 
-    private void deleteFile (String chatId){
-        var filePath = new File("").getAbsolutePath() + "/data/" + chatId + ".json";
-        var file = new File(filePath);
-        file.delete();
+    @Before
+    @After
+    public void deleteFiles (){
+        new File(new File("").getAbsolutePath() + "/data/id2.json").delete();
     }
 }
