@@ -8,7 +8,6 @@ class User {
     private UserInfo info = new UserInfo();
     private INode currentNode;
     private Map<Class, Consumer<String>> updateMap = new HashMap<>();
-
     {
         updateMap.put(AlcoholNode.class, info::updateAlcoholRange);
         updateMap.put(BirthdayNode.class, info::updateBirthday);

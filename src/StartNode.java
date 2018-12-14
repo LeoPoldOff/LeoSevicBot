@@ -6,12 +6,11 @@ class StartNode extends Node {
         commands = new HashMap<>();
     }
 
-    void fillCommands(QuizNode quiz, boolean exitFlag) {
+    void fillCommands(QuizNode quiz) {
         commands.put("my info", new BotAction(this::myInfo, this));
         commands.put("change info", new BotAction(this::changeInfo, quiz));
         commands.put("when i die?", new BotAction(this::whenIDie, this));
-        if (exitFlag)
-            commands.put("exit", new BotAction(this::exit, this));
+        //commands.put("exit", new BotAction(this::exit, this));
     }
 
     private Response myInfo(String s, User user) {

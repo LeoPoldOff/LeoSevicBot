@@ -113,12 +113,7 @@ class QuizNode extends Node {
 
     Response writeData(String s, User user) {
         var dw = new DataWorker();
-        try {
-            dw.writeData(user.getInfo(), user.id);
-        }
-        catch (Exception e){
-            return new Response("Changes don't saved: " + e.getMessage(), 0);
-        }
+        dw.writeData(user.getInfo(), user.id);
         return new Response("Changes saved", 0);
     }
 

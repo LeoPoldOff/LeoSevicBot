@@ -3,7 +3,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 class BirthdayNode implements INode {
-    Map<String, BotAction> commands;
+    private Map<String, BotAction> commands;
 
     BirthdayNode() {
         commands = new HashMap<>();
@@ -18,7 +18,6 @@ class BirthdayNode implements INode {
         try {
             dateFormat.parse(s);
         } catch (ParseException e) {
-            user.update("01.01.1900", this.getClass());
             return new Response("Wrong date format", 0);
         }
         user.update(s, this.getClass());

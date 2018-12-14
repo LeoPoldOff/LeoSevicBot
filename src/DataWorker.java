@@ -41,25 +41,26 @@ class DataWorker {
     }
 
     @SuppressWarnings("unchecked")
-    void writeData(UserInfo uInfo, String id) throws Exception {
+    void writeData(UserInfo pInfo, String id) {
         var dataDir = new File(dirPath);
         if (!dataDir.exists()) {
             dataDir.mkdirs();
         }
 
         JSONObject object = new JSONObject();
-        object.put("sex", uInfo.sex);
-        object.put("birthDate", uInfo.birthDate);
-        object.put("height", uInfo.height);
-        object.put("weight", uInfo.weight);
-        object.put("region", uInfo.region);
-        object.put("smokingRange", uInfo.smokingRange);
-        object.put("alcoholRange", uInfo.alcoholRange);
-        object.put("sportRange", uInfo.sportRange);
+        object.put("sex", pInfo.sex);
+        object.put("birthDate", pInfo.birthDate);
+        object.put("height", pInfo.height);
+        object.put("weight", pInfo.weight);
+        object.put("region", pInfo.region);
+        object.put("smokingRange", pInfo.smokingRange);
+        object.put("alcoholRange", pInfo.alcoholRange);
+        object.put("sportRange", pInfo.sportRange);
+
         try (FileWriter writer = new FileWriter(dirPath + "/" + id + ".json")){
             writer.write(object.toJSONString());
         } catch (IOException e) {
-            throw new Exception(e.getMessage());
+            log.log(Level.SEVERE, "Exception: ", e);
         }
     }
 }

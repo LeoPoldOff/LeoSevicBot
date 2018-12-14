@@ -1,5 +1,5 @@
 class UserInfo {
-    Integer sex, height, weight, region,
+    int sex, height, weight, region,
             smokingRange, alcoholRange, sportRange;
     String birthDate;
 
@@ -14,7 +14,7 @@ class UserInfo {
         sportRange = 0;
     }
 
-    UserInfo(UserInfo info) {
+    UserInfo(UserInfo info){
         sex = info.sex;
         birthDate = info.birthDate;
         height = info.height;
