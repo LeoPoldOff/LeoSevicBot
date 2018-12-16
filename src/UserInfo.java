@@ -14,7 +14,7 @@ class UserInfo {
         sportRange = 0;
     }
 
-    UserInfo(UserInfo info){
+    UserInfo(UserInfo info) {
         sex = info.sex;
         birthDate = info.birthDate;
         height = info.height;
@@ -58,11 +58,11 @@ class UserInfo {
         this.sportRange = Integer.parseInt(SportRange);
     }
 
-    void updateHeightRange(String height) {
+    void updateHeight(String height) {
         this.height = Integer.parseInt(height);
     }
 
-    void updateWeightRange(String height) {
+    void updateWeight(String height) {
         this.weight = Integer.parseInt(height);
     }
 

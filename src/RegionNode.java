@@ -4,7 +4,6 @@ import java.util.Map;
 class RegionNode extends Node {
 
     RegionNode() {
-
         commands = new HashMap<>();
     }
 

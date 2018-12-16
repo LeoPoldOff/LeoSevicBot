@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.FileReader;
 
 public class BotTest {
-    private Bot bot = new Bot();
+    private Bot bot = new Bot(true);
 
     @Test
     public void unknownRespond() {

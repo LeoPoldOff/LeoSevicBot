@@ -1,8 +1,7 @@
 import org.junit.*;
 
-
-public class HeightNodeTest {
-    private HeightNode node = new HeightNode();
+public class WeightNodeTest {
+    private WeightNode node = new WeightNode();
 
     @Before
     public void fillCommands(){
@@ -13,9 +12,9 @@ public class HeightNodeTest {
     @Test
     public void getAnswer() {
         var res = node.getAnswer("help");
-        Assert.assertEquals("Type your height in sm", res.sup.get().userRespond);
-        res = node.getAnswer("170");
-        Assert.assertEquals( "Your height changed to 170 sm", res.func.apply("170",
+        Assert.assertEquals("Type your weight in kg", res.sup.get().userRespond);
+        res = node.getAnswer("70");
+        Assert.assertEquals( "Your weight changed to 70 kg", res.func.apply("70",
                 new User(new StartNode(), "id")).userRespond);
 
     }

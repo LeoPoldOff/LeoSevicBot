@@ -8,15 +8,16 @@ class User {
     private UserInfo info = new UserInfo();
     private INode currentNode;
     private Map<Class, Consumer<String>> updateMap = new HashMap<>();
+
     {
         updateMap.put(AlcoholNode.class, info::updateAlcoholRange);
         updateMap.put(BirthdayNode.class, info::updateBirthday);
-        updateMap.put(HeightNode.class, info::updateHeightRange);
+        updateMap.put(HeightNode.class, info::updateHeight);
         updateMap.put(RegionNode.class, info::updateRegion);
         updateMap.put(SexNode.class, info::updateSex);
         updateMap.put(SmokingNode.class, info::updateSmokingRange);
         updateMap.put(SportNode.class, info::updateSportRange);
-        updateMap.put(WeightNode.class, info::updateWeightRange);
+        updateMap.put(WeightNode.class, info::updateWeight);
     }
 
     User(INode currentNode, String chatId) {

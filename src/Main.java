@@ -2,8 +2,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(final String[] args) {
-        var bot = new Bot();
-        System.out.println(bot.greet());
+        var bot = new Bot(true);
+        //System.out.println(bot.greet());
         Scanner scan = new Scanner(System.in);
         while (true) {
             var command = scan.nextLine();
@@ -14,5 +14,6 @@ public class Main {
                 break;
             }
         }
+        scan.close();
     }
 }

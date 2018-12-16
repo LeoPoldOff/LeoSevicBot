@@ -2,20 +2,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 class QuizNode extends Node {
-    //private UserInfo userInfo;
-    private String sexQuestion = "What`s your sex?";
     static Map<Integer, String> sexOptions = new HashMap<>();
+    static Map<Integer, String> regionOptions = new HashMap<>();
+    static Map<Integer, String> smokingOptions = new HashMap<>();
+    static Map<Integer, String> alcoholOptions = new HashMap<>();
+    static Map<Integer, String> sportOptions = new HashMap<>();
 
-    {
+    static {
         sexOptions.put(0, "Undefined");
         sexOptions.put(1, "Male");
         sexOptions.put(2, "Female");
-    }
 
-    private String regionQuestion = "In what region do you live?";
-    static Map<Integer, String> regionOptions = new HashMap<>();
-
-    {
         regionOptions.put(0, "Undefined");
         regionOptions.put(1, "Russia");
         regionOptions.put(2, "Europe");
@@ -23,43 +20,25 @@ class QuizNode extends Node {
         regionOptions.put(4, "Africa");
         regionOptions.put(5, "America");
         regionOptions.put(6, "Australia");
-    }
 
-    private String smokeQuestion = "What`s your attitude to smoking?";
-    static Map<Integer, String> smokingOptions = new HashMap<>();
-
-    {
         smokingOptions.put(0, "Undefined");
         smokingOptions.put(1, "One pack of cigarettes a day or more");
         smokingOptions.put(2, "One or two pack of cigarettes a week");
         smokingOptions.put(3, "One or two pack of cigarettes a month");
         smokingOptions.put(4, "I`m not smoking");
-    }
 
-    private String alcoholQuestion = "What`s your attitude to alcohol?";
-    static Map<Integer, String> alcoholOptions = new HashMap<>();
-
-    {
         alcoholOptions.put(0, "Undefined");
         alcoholOptions.put(1, "I`m drinking everyday");
         alcoholOptions.put(2, "Usually I drink a few times a week");
         alcoholOptions.put(3, "Usually I drink a few times a month");
         alcoholOptions.put(4, "I`m not drinking");
-    }
 
-    private String sportQuestion = "What`s your attitude to sport?";
-    static Map<Integer, String> sportOptions = new HashMap<>();
-
-    {
         sportOptions.put(0, "Undefined");
         sportOptions.put(1, "I`m professional athlete");
         sportOptions.put(2, "Sometimes I go to the gym");
         sportOptions.put(3, "I don`t like sport");
-    }
 
-    private String heightQuestion = "What`s your height measuring in centimeters?";
-    private String weightQuestion = "What`s your weight measuring in kilos?";
-    private String birthdayQuestion = "What`s your date of birth?(dd.mm.yyyy)";
+    }
 
     QuizNode() {
         commands = new HashMap<>();
@@ -80,40 +59,45 @@ class QuizNode extends Node {
     }
 
     Response changeSex() {
-        return new Response(makeQuestion(sexQuestion, sexOptions), 0);
+        return new Response(makeQuestion("What`s your sex?", sexOptions), 0);
     }
 
     Response changeHeight() {
-        return new Response(heightQuestion, 0);
+        return new Response("What`s your height measuring in centimeters?", 0);
     }
 
     Response changeWeight() {
-        return new Response(weightQuestion, 0);
+        return new Response("What`s your weight measuring in kilos?", 0);
     }
 
     Response changeBDay() {
-        return new Response(birthdayQuestion, 0);
+        return new Response("What`s your date of birth?(dd.mm.yyyy)", 0);
     }
 
     Response changeRegion() {
-        return new Response(makeQuestion(regionQuestion, regionOptions), 0);
+        return new Response(makeQuestion("In what region do you live?", regionOptions), 0);
     }
 
     Response changeSmokingRange() {
-        return new Response(makeQuestion(smokeQuestion, smokingOptions), 0);
+        return new Response(makeQuestion("What`s your attitude to smoking?", smokingOptions), 0);
     }
 
     Response changeAlcoholRange() {
-        return new Response(makeQuestion(alcoholQuestion, alcoholOptions), 0);
+        return new Response(makeQuestion("What`s your attitude to alcohol?", alcoholOptions), 0);
     }
 
     Response changeSportRange() {
-        return new Response(makeQuestion(sportQuestion, sportOptions), 0);
+        return new Response(makeQuestion("What`s your attitude to sport?", sportOptions), 0);
     }
 
     Response writeData(String s, User user) {
         var dw = new DataWorker();
-        dw.writeData(user.getInfo(), user.id);
+        try {
+            dw.writeData(user.getInfo(), user.id);
+        }
+        catch (Exception e){
+            return new Response("Changes don't saved: " + e.getMessage(), 0);
+        }
         return new Response("Changes saved", 0);
     }
 
